@@ -1,0 +1,19 @@
+USE `clients`;
+CREATE TABLE client (
+    client_id INT PRIMARY KEY AUTO_INCREMENT,
+    client_name VARCHAR(100) NOT NULL,
+    client_address VARCHAR(255),
+    client_mobile_number VARCHAR(15),
+    client_age INT
+);
+INSERT INTO client (client_name, client_address, client_mobile_number, client_age) VALUES
+('Alice Johnson', '123 Main St, Springfield', '9876543210', 28),
+('Bob Smith', '456 Oak Ave, Metropolis', '8765432109', 35),
+('Charlie Davis', '789 Pine Rd, Gotham', '7654321098', 42),
+('Diana Prince', '321 Maple St, Star City', '6543210987', 30),
+('Ethan Hunt', '654 Birch Blvd, Central City', '5432109876', 38),
+('Fiona Gallagher', '987 Elm St, Riverdale', '4321098765', 27),
+('George Martin', '147 Cedar Dr, Smallville', '3210987654', 50),
+('Hannah Lee', '258 Spruce Ct, Blüdhaven', '2109876543', 33),
+('Ian Wright', '369 Walnut Ln, Coast City', '1098765432', 40),
+('Julia Roberts', '159 Chestnut Pl, Hill Valley', '9988776655', 45);

@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${id == null} ? 'Add Client' : 'Edit Client'">Client Form</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background-color: #f0f2f5;
+            padding: 20px;
+        }
+        .form-container {
+            background: #fff;
+            max-width: 500px;
+            margin: auto;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        h2 {
+            text-align: center;
+            color: #333;
+        }
+        form div {
+            margin-bottom: 15px;
+        }
+        label {
+            font-weight: bold;
+            display: block;
+            margin-bottom: 5px;
+        }
+        input[type="text"], input[type="number"] {
+            width: 100%;
+            padding: 10px;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+        }
+        button {
+            width: 100%;
+            padding: 12px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: bold;
+        }
+        a.back-link {
+            display: block;
+            text-align: center;
+            margin-top: 15px;
+            color: #007bff;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+
+<div class="form-container">
+    <h2 th:text="${id == null} ? 'Add New Client' : 'Edit Client'">Client Form</h2>
+
+    <!-- Create Form -->
+    <form th:if="${id == null}" th:action="@{/clients}" th:object="${client}" method="post">
+
+        <div>
+            <label>Name:</label>
+            <input type="text" th:field="*{clientName}" required>
+        </div>
+        <div>
+            <label>Address:</label>
+            <input type="text" th:field="*{clientAddress}">
+        </div>
+        <div>
+            <label>Mobile Number:</label>
+            <input type="text" th:field="*{clientMobileNumber}" required>
+        </div>
+        <div>
+            <label>Age:</label>
+            <input type="number" th:field="*{clientAge}" required>
+        </div>
+        <button type="submit">Save Client</button>
+    </form>
+
+    <!-- Edit Form -->
+    <form th:unless="${id == null}" th:action="@{/clients/update/{id}(id=${id})}" th:object="${client}" method="post">
+
+        <div>
+            <label>Name:</label>
+            <input type="text" th:field="*{clientName}" required>
+        </div>
+        <div>
+            <label>Address:</label>
+            <input type="text" th:field="*{clientAddress}">
+        </div>
+        <div>
+            <label>Mobile Number:</label>
+            <input type="text" th:field="*{clientMobileNumber}" required>
+        </div>
+        <div>
+            <label>Age:</label>
+            <input type="number" th:field="*{clientAge}" required>
+        </div>
+        <button type="submit">Update Client</button>
+    </form>
+
+    <a class="back-link" href="/clients">← Back to List</a>
+</div>
+
+</body>
+</html>

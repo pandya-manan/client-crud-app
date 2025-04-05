@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Client List</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background: #f5f7fa;
+            margin: 0;
+            padding: 20px;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        .client-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 20px;
+            margin-top: 30px;
+        }
+        .card {
+            background: #fff;
+            border-radius: 16px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            padding: 20px;
+            transition: transform 0.2s ease;
+        }
+        .card:hover {
+            transform: scale(1.02);
+        }
+        .card h2 {
+            margin-top: 0;
+            font-size: 1.3rem;
+            color: #2a2a2a;
+        }
+        .card p {
+            color: #555;
+            margin: 6px 0;
+        }
+        .pagination {
+            margin-top: 30px;
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+        }
+        .pagination a {
+            padding: 8px 14px;
+            border-radius: 8px;
+            background: #007bff;
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        .pagination a.disabled {
+            background: #ccc;
+            pointer-events: none;
+        }
+		.flash-message {
+		        padding: 15px;
+		        border-radius: 8px;
+		        text-align: center;
+		        font-weight: bold;
+		        font-size: 16px;
+		        margin-bottom: 20px;
+		        animation: fadeIn 0.5s ease-in-out;
+		    }
+
+		    .success { background-color: #d4edda; color: #155724; }
+		    .error { background-color: #f8d7da; color: #721c24; }
+		    .info { background-color: #cce5ff; color: #004085; }
+
+		    @keyframes fadeIn {
+		        from { opacity: 0; }
+		        to { opacity: 1; }
+		    }
+    </style>
+	<script>
+	    setTimeout(() => {
+	        const msg = document.getElementById('flashMessage');
+	        if (msg) msg.style.display = 'none';
+	    }, 3000); // auto-hide after 3 seconds
+	</script>
+</head>
+<body>
+	<div th:if="${message}" th:class="'flash-message ' + ${messageType}" id="flashMessage">
+	    <p th:text="${message}"></p>
+	</div>
+    <h1>Client Directory</h1>
+	<div style="text-align: center; margin-bottom: 20px;">
+	    <a href="/clients/new" style="
+	        display: inline-block;
+	        padding: 10px 20px;
+	        background-color: #28a745;
+	        color: white;
+	        text-decoration: none;
+	        border-radius: 8px;
+	        font-weight: bold;
+	    ">
+	        <i class="fas fa-plus-circle"></i> Add New Client
+	    </a>
+	</div>
+
+
+    <div class="client-container">
+        <div class="card" th:each="client : ${clientPage.content}">
+            <h2 th:text="${client.clientName}">Client Name</h2>
+            <p><i class="fas fa-map-marker-alt"></i> <span th:text="${client.clientAddress}">Address</span></p>
+            <p><i class="fas fa-phone"></i> <span th:text="${client.clientMobileNumber}">Mobile</span></p>
+            <p><i class="fas fa-user"></i> Age: <span th:text="${client.clientAge}">Age</span></p>
+			<div style="margin-top: 15px;">
+			       <a th:href="@{|/clients/edit/${client.clientId}|}" style="
+			           padding: 6px 12px;
+			           background-color: #ffc107;
+			           color: white;
+			           border-radius: 6px;
+			           text-decoration: none;
+			           margin-right: 8px;
+			       ">Edit</a>
+
+			       <form th:action="@{|/clients/delete/${client.clientId}|}" method="post" style="display: inline;">
+			           <input type="hidden" name="_method" value="delete" />
+			           <button type="submit" style="
+			               padding: 6px 12px;
+			               background-color: #dc3545;
+			               color: white;
+			               border: none;
+			               border-radius: 6px;
+			               cursor: pointer;
+			           ">Delete</button>
+			       </form>
+			   </div>
+        </div>
+    </div>
+
+    <div class="pagination">
+        <a th:href="@{|/clients?page=${clientPage.number - 1}&size=${clientPage.size}|}"
+           th:classappend="${clientPage.first} ? 'disabled'" 
+        >Previous</a>
+
+        <a th:href="@{|/clients?page=${clientPage.number + 1}&size=${clientPage.size}|}"
+           th:classappend="${clientPage.last} ? 'disabled'" 
+        >Next</a>
+    </div>
+</body>
+</html>
